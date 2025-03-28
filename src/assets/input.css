@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@layer base {
+	h1 {
+	  @apply text-4xl font-bold;
+	}
+  
+	h2 {
+	  @apply text-3xl font-semibold;
+	}
+  
+	h3 {
+	  @apply text-2xl font-semibold;
+	}
+  
+	h4 {
+	  @apply text-xl font-medium;
+	}
+  
+	h5 {
+	  @apply text-lg font-medium;
+	}
+  
+	h6 {
+	  @apply text-base font-medium;
+	}
+}
+
+@layer components {
+	.card {
+		@apply bg-white rounded-lg shadow-md shadow-gray-500 hover:shadow-sm duration-300 overflow-hidden;
+	}
+
+	.table {
+	  @apply table-auto border-collapse border border-slate-300 w-full;
+	}
+
+	.table tr td, .table tr th {
+		@apply border border-slate-300 p-1 px-3;
+	  }
+  }
