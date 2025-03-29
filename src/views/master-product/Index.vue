@@ -101,5 +101,5 @@ const form = ref<{ name: string, category: categoryProductEnum, price: number, d
 	imageUrl: undefined
 });
 
-const productService = ref(new ProductService());
+const productService = new ProductService();
 </script>

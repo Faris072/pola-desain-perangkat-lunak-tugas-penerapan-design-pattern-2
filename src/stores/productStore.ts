@@ -3,22 +3,22 @@ import { defineStore } from "pinia";
 import { ref } from "vue";
 
 const useProductStore = defineStore('product', () => {
-	let products: IProduct[] = [];
+	let products = ref<IProduct[]>([]);
 
 	function getProducts(){
-		return products;
+		return products.value;
 	}
 
 	function addProduct(product: IProduct){
-		products?.push(product);
+		products?.value?.push(product);
 	}
 
 	function deleteProduct(id: string){	
-		products = products?.filter(product => product?.id !== id);
+		products.value = products?.value?.filter(product => product?.id !== id);
 	}
 
 	function saveProduct(product: IProduct[]){
-		products = product;
+		products.value = product;
 	}
 
 	return { products, addProduct, getProducts, deleteProduct, saveProduct };

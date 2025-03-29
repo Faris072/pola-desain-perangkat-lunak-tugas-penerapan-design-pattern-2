@@ -22,14 +22,17 @@ export default class ProductService implements IMasterProductService {
 		return productRepository?.getProducts();
 	}
 
-	addProduct(form: { name: string, category: categoryProductEnum, price: number, description?: string, imageUrl?: string }) {
+	addProduct(form: { name: string, category: categoryProductEnum, price: number, description?: string, imageUrl?: string }): void {
 		let creator: Creator = this.creators[form.category];
-		if(!creator || !form?.name || !form?.price) {return;};
+		if(!creator || !form?.name || !form?.price) {
+			alert('Data belum lengkap');
+			return;
+		};
 
 		const product = creator.create(
 			form?.name,
 			form?.description,
-			form?.price,
+			Number(form?.price || 0),
 			form?.imageUrl,
 		);
 
@@ -37,6 +40,10 @@ export default class ProductService implements IMasterProductService {
 	}
 
 	deleteProduct(id: string){
+		if(!id){
+			alert('Id tidak boleh kosong');
+			return;
+		}
 		productRepository?.deleteProduct(id);
 	}
 }

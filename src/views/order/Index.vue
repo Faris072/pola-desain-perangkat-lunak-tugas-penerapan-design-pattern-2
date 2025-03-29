@@ -15,7 +15,9 @@
 							<h5 class="font-bold">{{ item?.name }}</h5>
 							<h6 class="text-red-700">Rp{{ item.price }}</h6>
 							<br>
-							<button class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded-lg">Tambah Keranjang</button>
+							<p>{{ item?.description }}</p>
+							<br>
+							<button @click="orderService?.addOrder(item)" class="cursor-pointer w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded-lg">Tambah Keranjang</button>
 						</div>
 					</div>
 				</div>
@@ -26,24 +28,26 @@
 		<div class="card flex items-center justify-between m-auto w-3/4 sm:max-w-1/2 p-5 px-10 rounded-full">
 			<div class="kiri flex gap-7">
 				<i class="pi pi-shopping-cart text-black text-2xl"></i>
-				<h5>Pesanan: 2</h5>
-				<h5 class="font-bold">Total: Rp100.000</h5>
+				<h5>Pesanan: {{ orderService?.getCountOrders() }}</h5>
+				<h5 class="font-bold">Total: {{ orderService?.getTotalPrice() }}</h5>
 			</div>
 			<div class="kanan">
-				<button class="w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded-3xl">Checkkout <i class="ml-2 pi pi-arrow-right"></i></button>
+				<router-link to="/checkout" class="cursor-pointer w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded-3xl">Checkkout <i class="ml-2 pi pi-arrow-right"></i></router-link>
 			</div>
 		</div>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import Navbar from './Navbar.vue';
 import ProductGroupAdapter from '@/adapter/ProductGroupAdapter.ts';
 import ProductService from '@/services/ProductService.ts';
+import { OrderService } from '@/services/OrderService';
 
 const productGroupAdapter = new ProductGroupAdapter();
 const productService = new ProductService();
+const orderService = new OrderService();
 
 const groupedProducts = computed(() => {
   return productGroupAdapter.adapt(productService?.getProducts());
