@@ -4,7 +4,11 @@ import useOrderStore from "@/stores/orderStore";
 import { ref } from "vue";
 
 export class OrderRepository implements IOrderRepository {
-	private orderStore = useOrderStore();
+	private orderStore: any;
+
+	constructor(orderStore: any){
+		this.orderStore = orderStore;
+	}
 
 	getOrders(): IProduct[] {
 		return this.orderStore?.getOrders();
@@ -18,5 +22,3 @@ export class OrderRepository implements IOrderRepository {
 		this?.orderStore?.deleteOrder(id);
 	}
 }
-
-export default new OrderRepository();

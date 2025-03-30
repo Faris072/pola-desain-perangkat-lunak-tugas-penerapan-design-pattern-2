@@ -3,7 +3,11 @@ import type IProductRepository from "./interface/IProductRepository";
 import type IProduct from "@/product/IProduct";
 
 export class ProductRepository implements IProductRepository {
-	private productStore = useProductStore();
+	private productStore: any;
+
+	constructor(productStore: any){
+		this.productStore = productStore;
+	}
 
 	getProducts(){
 		return this.productStore.getProducts();
@@ -17,5 +21,3 @@ export class ProductRepository implements IProductRepository {
 		this.productStore.deleteProduct(id);
 	}
 }
-
-export default new ProductRepository();

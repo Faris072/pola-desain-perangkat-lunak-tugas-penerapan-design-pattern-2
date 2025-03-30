@@ -90,6 +90,8 @@ import RupiahFormatAdapter from '@/adapter/RupiahFormatAdapter';
 import Modal from '@/components/Modal.vue';
 import { categoryProductEnum } from '../../product/IProduct.ts';
 import ProductService from '@/services/ProductService.ts';
+import { ProductRepository } from '@/repositories/ProductRepository.ts';
+import useProductStore from '@/stores/productStore.ts';
 
 const rupiahFormatAdapter = new RupiahFormatAdapter();
 const showModal = ref(false);
@@ -101,5 +103,6 @@ const form = ref<{ name: string, category: categoryProductEnum, price: number, d
 	imageUrl: undefined
 });
 
-const productService = new ProductService();
+const productRepository = new ProductRepository(useProductStore());
+const productService = new ProductService(productRepository);
 </script>

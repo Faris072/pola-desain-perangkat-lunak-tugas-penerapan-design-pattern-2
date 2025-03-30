@@ -4,13 +4,15 @@ import MinumanCreator from "@/factory/MinumanCreator";
 import SnackCreator from "@/factory/SnackCreator";
 import { categoryProductEnum } from "@/product/IProduct";
 import type IProduct from "@/product/IProduct";
-import productRepository from "@/repositories/ProductRepository";
+import type IProductRepository from "@/repositories/interface/IProductRepository";
 import type IMasterProductService from "@/services/interfaces/IProductService";
 
 export default class ProductService implements IMasterProductService {
+	private productRepository: IProductRepository;
 	private creators: { [key: string]: Creator };
 
-	constructor() {
+	constructor(productRepository: IProductRepository) {
+		this.productRepository = productRepository;
 		this.creators = {
 			[categoryProductEnum.makanan]: new MakananCreator(),
 			[categoryProductEnum.minuman]: new MinumanCreator(),
@@ -19,7 +21,7 @@ export default class ProductService implements IMasterProductService {
 	}
 
 	getProducts(): IProduct[] {
-		return productRepository?.getProducts();
+		return this.productRepository?.getProducts();
 	}
 
 	addProduct(form: { name: string, category: categoryProductEnum, price: number, description?: string, imageUrl?: string }): void {
@@ -36,7 +38,7 @@ export default class ProductService implements IMasterProductService {
 			form?.imageUrl,
 		);
 
-		productRepository?.addProduct(product);
+		this.productRepository?.addProduct(product);
 	}
 
 	deleteProduct(id: string){
@@ -44,6 +46,6 @@ export default class ProductService implements IMasterProductService {
 			alert('Id tidak boleh kosong');
 			return;
 		}
-		productRepository?.deleteProduct(id);
+		this.productRepository?.deleteProduct(id);
 	}
 }

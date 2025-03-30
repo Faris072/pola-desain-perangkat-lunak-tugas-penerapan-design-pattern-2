@@ -1,4 +1,4 @@
-import type IRupiahFormatAdapter from "./IRupiahFormatAdapter";
+import type IRupiahFormatAdapter from "./interfaces/IRupiahFormatAdapter";
 
 export default class RupiahFormatAdapter implements IRupiahFormatAdapter {
 	service:Intl.NumberFormat;

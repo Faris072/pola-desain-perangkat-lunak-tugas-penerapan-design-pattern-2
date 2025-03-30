@@ -44,12 +44,19 @@ import Navbar from './Navbar.vue';
 import ProductGroupAdapter from '@/adapter/ProductGroupAdapter.ts';
 import ProductService from '@/services/ProductService.ts';
 import { OrderService } from '@/services/OrderService';
+import { ProductRepository } from '@/repositories/ProductRepository';
+import useProductStore from '@/stores/productStore';
+import { OrderRepository } from '@/repositories/OrderRepository';
+import useOrderStore from '@/stores/orderStore';
 
 const productGroupAdapter = new ProductGroupAdapter();
-const productService = new ProductService();
-const orderService = new OrderService();
-
 const groupedProducts = computed(() => {
   return productGroupAdapter.adapt(productService?.getProducts());
 });
+
+const productRepository = new ProductRepository(useProductStore());
+const productService = new ProductService(productRepository);
+
+const orderRepository = new OrderRepository(useOrderStore());
+const orderService = new OrderService(orderRepository);
 </script>

@@ -86,11 +86,15 @@
 
 <script lang="ts" setup>
 import ProductGroupAdapter from '@/adapter/ProductGroupAdapter';
+import { OrderRepository } from '@/repositories/OrderRepository';
 import { OrderService } from '@/services/OrderService';
+import useOrderStore from '@/stores/orderStore';
 import Checkout from '@/template/Checkout';
 import { ref } from 'vue';
 
-const checkout = new Checkout(new ProductGroupAdapter(), new OrderService());
+const orderRepository = new OrderRepository(useOrderStore());
+const orderService = new OrderService(orderRepository);
+const checkout = new Checkout(new ProductGroupAdapter(), orderService);
 checkout.checkout();
 
 </script>
