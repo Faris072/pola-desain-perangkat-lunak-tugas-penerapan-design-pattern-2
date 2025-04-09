@@ -7,13 +7,14 @@
 				<div class="head border-b-2 border-dashed border-gray-400 pb-3">
 					<h1>Checkout</h1>
 					<span class="text-gray-700">Check your order before payment</span>
+					<br><br>
 				</div>
 				<br>
 				<div class="body border-b-2 border-dashed border-gray-400 pb-3">
 					<div v-for="(category, index) in checkout?.getOrders" class="list-order">
 						<h3>List Order {{ category?.category }}</h3>
 						<br>
-						<div v-for="(product, idx) in category?.products" class="item flex items-center justify-between border-b-1 border-gray-500 mb-2 p-2">
+						<div v-for="(product, idx) in category?.products" class="item flex items-center justify-between border-b-1 border-gray-300 mb-2 p-2">
 							<div class="kiri flex items-center gap-3">
 								<img :src="product?.imageUrl" class="w-15 h-15 rounded-lg" alt="">
 								<div class="info">
@@ -36,7 +37,7 @@
 					</div>
 					<br>
 					<div class="list-total">
-						<div class="item flex items-center justify-between border-b-1 border-gray-500 mb-2 p-2 py-3">
+						<div class="item flex items-center justify-between border-b-1 border-gray-300 mb-2 p-2 py-3">
 							<div class="kiri flex items-center gap-3">
 								<div class="info">
 									<h5 class="font-semibold mb-0 text-gray-800">Total Price</h5>
@@ -46,7 +47,7 @@
 								<h5 class="font-bold text-blue-500">Rp {{ checkout?.getTotalPrice }}</h5>
 							</div>
 						</div>
-						<div class="item flex items-center justify-between border-b-1 border-gray-500 mb-2 p-2 py-3">
+						<div class="item flex items-center justify-between border-b-1 border-gray-300 mb-2 p-2 py-3">
 							<div class="kiri flex items-center gap-3">
 								<div class="info">
 									<h5 class="font-semibold mb-0 text-gray-800">Discount</h5>
@@ -56,7 +57,7 @@
 								<h5 class="font-bold text-yellow-500">Rp {{ checkout?.getDiscount }}</h5>
 							</div>
 						</div>
-						<div class="item flex items-center justify-between border-b-3 border-gray-500 border-dotted mb-2 p-2 py-3">
+						<div class="item flex items-center justify-between border-b-2 border-dashed border-gray-400 mb-2 p-2 py-3">
 							<div class="kiri flex items-center gap-3">
 								<div class="info">
 									<h5 class="font-semibold mb-0 text-gray-800">Tax</h5>
