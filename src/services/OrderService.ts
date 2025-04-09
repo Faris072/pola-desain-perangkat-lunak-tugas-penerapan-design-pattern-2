@@ -2,7 +2,7 @@ import type IProduct from "@/product/IProduct";
 import type { IOrderService } from "./interfaces/IOrderService";
 import type IOrderRepository from "@/repositories/interface/IOrderRepository";
 
-export class OrderService implements IOrderService {
+export default class OrderService implements IOrderService {
 	private orderRepository: IOrderRepository;
 
 	constructor(orderRepository: IOrderRepository) {
