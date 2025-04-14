@@ -11,7 +11,7 @@
 				</div>
 				<br>
 				<div class="body border-b-2 border-dashed border-gray-400 pb-3">
-					<div v-for="(category, index) in checkout?.getOrders" class="list-order">
+					<div v-for="(category, index) in guestTotal?.getOrders" class="list-order">
 						<h3>List Order {{ category?.category }}</h3>
 						<br>
 						<div v-for="(product, idx) in category?.products" class="item flex items-center justify-between border-b-1 border-gray-300 mb-2 p-2">
@@ -44,7 +44,7 @@
 								</div>
 							</div>
 							<div class="kanan flex items-center justify-end gap-5">
-								<h5 class="font-bold text-blue-500">Rp {{ checkout?.getTotalPrice }}</h5>
+								<h5 class="font-bold text-blue-500">Rp {{ guestTotal?.getTotalPrice }}</h5>
 							</div>
 						</div>
 						<div class="item flex items-center justify-between border-b-1 border-gray-300 mb-2 p-2 py-3">
@@ -54,7 +54,7 @@
 								</div>
 							</div>
 							<div class="kanan flex items-center justify-end gap-5">
-								<h5 class="font-bold text-yellow-500">Rp {{ checkout?.getDiscount }}</h5>
+								<h5 class="font-bold text-yellow-500">Rp {{ guestTotal?.getDiscount }}</h5>
 							</div>
 						</div>
 						<div class="item flex items-center justify-between border-b-2 border-dashed border-gray-400 mb-2 p-2 py-3">
@@ -64,7 +64,7 @@
 								</div>
 							</div>
 							<div class="kanan flex items-center justify-end gap-5">
-								<h5 class="font-bold text-red-500">Rp {{ checkout?.getTax }}</h5>
+								<h5 class="font-bold text-red-500">Rp {{ guestTotal?.getTax }}</h5>
 							</div>
 						</div>
 						<div class="item flex items-center justify-between mb-2 p-2 py-3">
@@ -74,7 +74,7 @@
 								</div>
 							</div>
 							<div class="kanan flex items-center justify-end gap-5">
-								<h3 class="font-bold text-blue-500">Rp {{ checkout?.getGrandTotal }}</h3>
+								<h3 class="font-bold text-blue-500">Rp {{ guestTotal?.getGrandTotal }}</h3>
 							</div>
 						</div>
 					</div>
@@ -88,12 +88,12 @@
 <script lang="ts" setup>
 import ProductGroupAdapter from '@/adapter/ProductGroupAdapter';
 import OrderServiceCreator from '@/factory/OrderServiceCreator';
-import Checkout from '@/template/Checkout';
+import GuestTotal from '@/template/GuesttTotal';
 
 const orderServiceCreator = new OrderServiceCreator();
 const orderService = orderServiceCreator?.create();
 
-const checkout = new Checkout(new ProductGroupAdapter(), orderService);
-checkout.checkout();
+const guestTotal = new GuestTotal(new ProductGroupAdapter(), orderService);
+guestTotal.checkout();
 
 </script>

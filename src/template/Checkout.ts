@@ -1,37 +1,67 @@
+import type ICategoryProduct from "@/adapter/interfaces/ICategoryProduct";
 import type IProductGroupAdapter from "@/adapter/interfaces/IProductGroupAdapter";
-import CheckoutTemplate from "./CheckoutTemplate";
 import type { IOrderService } from "@/services/interfaces/IOrderService";
 
-export default class Checkout extends CheckoutTemplate {
-	constructor(productGroupAdapter: IProductGroupAdapter, orderService: IOrderService){
-		super(productGroupAdapter, orderService);
+export default abstract class Checkout {
+	protected readonly productGroupAdapter: IProductGroupAdapter;
+	protected readonly orderService: IOrderService;
+	private orders: ICategoryProduct[] = [];
+	private totalPrice: number = 0;
+	private discount: number = 0;
+	private tax: number = 0;
+	private grandTotal: number = 0;
+
+	constructor(
+		productGroupAdapter: IProductGroupAdapter,
+		orderService: IOrderService
+	) {
+		this.productGroupAdapter = productGroupAdapter;
+		this.orderService = orderService;
 	}
 
-	protected countTotalDiscount(): number {
-		if(this.getTotalPrice > 0 && this.getTotalPrice <= 50_000){
-			return this.getTotalPrice * 0.02;
-		}
-		else if(this.getTotalPrice > 50_000 && this.getTotalPrice <= 100_000){
-			return this.getTotalPrice * 0.05;
-		}
-		else if(this.getTotalPrice > 100_000){
-			return this.getTotalPrice * 0.1;
-		}
-		else {
-			return 0;
-		}
+	// pengganti final method di java supaya tidak di override sub class
+	private execCheckout(){
+		this.orders = this.groupingOrdersByCategory();
+		this.totalPrice = this.countTotalPrice();
+		this.discount = this.countTotalDiscount();
+		this.tax = this.countTax();
+		this.grandTotal = this.countGrandTotal();
+	}
+	public checkout(){
+		this.execCheckout();
 	}
 
-	protected countTax(): number {
-		if(this.getTotalPrice <= 10_000_000){
-			return this.getTotalPrice * 0.11;
-		}
-		else {
-			return this.getTotalPrice * 0.12;
-		}
+	get getOrders(): ICategoryProduct[] {
+		return this.orders;
 	}
 
-	protected countGrandTotal(): number {
-		return this.getTotalPrice - this.getDiscount + this.getTax;
+	get getTotalPrice(): number {
+		return this.totalPrice;
 	}
+
+	get getDiscount(): number {
+		return this.discount;
+	}
+
+	get getTax(): number {
+		return this.tax;
+	}
+
+	get getGrandTotal(): number {
+		return this.grandTotal;
+	}
+
+	protected groupingOrdersByCategory(): ICategoryProduct[] {
+		return this.productGroupAdapter?.adapt(this.orderService?.getOrders());
+	}
+
+	protected countTotalPrice(): number{
+		return this.orderService?.getTotalPrice();
+	}
+
+	protected abstract countTotalDiscount(): number;
+
+	protected abstract countTax(): number;
+
+	protected abstract countGrandTotal(): number;
 }

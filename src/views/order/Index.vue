@@ -3,7 +3,7 @@
 		<Navbar></Navbar>
 		<br>
 		<div class="p-10">
-			<div v-for="(category, index) in groupedProducts" class="card bg-white p-10 mb-10">
+			<div v-for="(category) in groupedProducts" class="card bg-white p-10 mb-10">
 				<h2>{{ category?.category }}</h2>
 				<br>
 				<div class="wrap-product grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-7">
@@ -47,7 +47,7 @@ import ProductServiceCreator from '@/factory/ProductServiceCreator';
 
 const productGroupAdapter = new ProductGroupAdapter();
 const groupedProducts = computed(() => {
-  return productGroupAdapter.adapt(productService?.getProducts());
+	return productGroupAdapter.adapt(productService?.getProducts());
 });
 
 const productService = new ProductServiceCreator()?.create();

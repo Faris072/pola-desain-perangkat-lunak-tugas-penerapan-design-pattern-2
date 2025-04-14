@@ -92,6 +92,7 @@ import { categoryProductEnum } from '../../product/IProduct.ts';
 import ProductService from '@/services/ProductService.ts';
 import { ProductRepository } from '@/repositories/ProductRepository.ts';
 import useProductStore from '@/stores/productStore.ts';
+import FoodAdapter from '@/adapter/CurrencyAdapter.ts';
 
 const rupiahFormatAdapter = new RupiahFormatAdapter();
 const showModal = ref(false);

@@ -4,7 +4,7 @@ import type IProductGroupAdapter from "./interfaces/IProductGroupAdapter";
 
 export default class ProductGroupAdapter implements IProductGroupAdapter {
 	adapt(products: IProduct[]): ICategoryProduct[] {
-	  return products?.reduce((acc, product) => {
+		return products?.reduce((acc, product) => {
 			const category = product?.category;
 			if (!category) return acc;
 
