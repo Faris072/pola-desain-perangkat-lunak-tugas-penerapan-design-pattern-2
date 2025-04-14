@@ -4,7 +4,7 @@ export default class RupiahFormatAdapter implements IRupiahFormatAdapter {
 	service:Intl.NumberFormat;
 
 	constructor(){
-		this.service = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR' });
+		this.service = new Intl.NumberFormat('id-ID', { currency: 'IDR' });
 	}
 
 	build(data: number): string {

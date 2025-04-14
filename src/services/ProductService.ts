@@ -24,22 +24,8 @@ export default class ProductService implements IMasterProductService {
 		};
 	}
 
-	getProducts(currency: 'IDR' | 'USD' | 'YEN' = 'IDR'): IProduct[] {
-		if(currency == 'USD'){
-			return this.productRepository?.getProducts()?.map(product => {
-				product.price = this.currencyAdapter?.rupiahToDollar(product?.price);
-				return product;
-			});
-		}
-		else if(currency == 'YEN'){
-			return this.productRepository?.getProducts()?.map(product => {
-				product.price = this.currencyAdapter?.rupiahToYen(product?.price);
-				return product;
-			});
-		}
-		else {
-			return this.productRepository?.getProducts();
-		}
+	getProducts(): IProduct[] {
+		return this.productRepository?.getProducts();
 	}
 
 	addProduct(form: { name: string, category: categoryProductEnum, price: number, description?: string, imageUrl?: string }): void {

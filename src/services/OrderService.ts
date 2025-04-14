@@ -21,22 +21,8 @@ export default class OrderService implements IOrderService {
 		this?.orderRepository?.addOrder(product);
 	}
 
-	getOrders(currency: 'IDR' | 'USD' | 'YEN' = 'IDR'): IProduct[] {
-		if(currency == 'USD'){
-			return this.orderRepository?.getOrders()?.map(product => {
-				product.price = this.currencyAdapter?.rupiahToDollar(product?.price);
-				return product;
-			});
-		}
-		else if(currency == 'YEN'){
-			return this.orderRepository?.getOrders()?.map(product => {
-				product.price = this.currencyAdapter?.rupiahToYen(product?.price);
-				return product;
-			});
-		}
-		else {
-			return this.orderRepository?.getOrders();
-		}
+	getOrders(): IProduct[] {
+		return this.orderRepository?.getOrders();
 	}
 
 	getCountOrders(): number {

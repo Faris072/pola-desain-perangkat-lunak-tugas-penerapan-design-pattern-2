@@ -16,8 +16,8 @@
 <script lang="ts" setup>
 	import { ref, defineExpose, onMounted } from 'vue';
 	import useCurrencyStore from '@/stores/currencyStore.ts';
-	const currencies = ['IDR', 'USD', 'YEN'];
-	const currencyValue = ref<'IDR'| 'USD'| 'YEN'>('IDR');
+	const currencies = ['IDR', 'USD'];
+	const currencyValue = ref<'IDR'| 'USD'>('IDR');
 	const currencyStore = useCurrencyStore();
 
 	onMounted(() => {

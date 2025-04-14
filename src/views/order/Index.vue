@@ -13,7 +13,7 @@
 						</div>
 						<div class="body p-5">
 							<h5 class="font-bold">{{ item?.name }}</h5>
-							<h6 class="text-red-700">Rp{{ item.price }}</h6>
+							<h6 class="text-red-700">{{ currencyStore.currency == 'USD' ? '$' : 'Rp' }} {{ currencyStore.currency == 'USD' ? currencyAdapter?.rupiahToDollar(item.price)?.toFixed(3) : item.price }}</h6>
 							<br>
 							<p>{{ item?.description }}</p>
 							<br>
@@ -39,17 +39,22 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import Navbar from './Navbar.vue';
 import ProductGroupAdapter from '@/adapter/ProductGroupAdapter.ts';
 import OrderServiceCreator from '@/factory/OrderServiceCreator';
 import ProductServiceCreator from '@/factory/ProductServiceCreator';
+import useCurrencyStore from '@/stores/currencyStore';
+import CurrencyAdapter from '@/adapter/CurrencyAdapter';
 
 const productGroupAdapter = new ProductGroupAdapter();
+const productService = new ProductServiceCreator()?.create();
+const orderService = new OrderServiceCreator()?.create();
+const currencyStore = useCurrencyStore();
+const currencyAdapter = new CurrencyAdapter();
+
 const groupedProducts = computed(() => {
 	return productGroupAdapter.adapt(productService?.getProducts());
 });
 
-const productService = new ProductServiceCreator()?.create();
-const orderService = new OrderServiceCreator()?.create();
 </script>

@@ -2,7 +2,7 @@ import { ref, computed, watch } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useCurrencyStore = defineStore('currency', () => {
-    const currency = ref<'IDR' | 'USD' | 'YEN'>('IDR');
+    const currency = ref<'IDR' | 'USD'>('IDR');
 
     watch(currency, (newValue, oldValue) => {
         localStorage.setItem('currency', JSON.stringify(currency.value))
@@ -12,11 +12,11 @@ export const useCurrencyStore = defineStore('currency', () => {
         currency.value = JSON.parse(localStorage.getItem('currency') || '[]');
     }
 
-    function switchCurrency(curr: 'IDR' | 'USD' | 'YEN') {
+    function switchCurrency(curr: 'IDR' | 'USD') {
         currency.value = curr;
     }
 
-  return { currency, switchCurrency, init };
+    return { currency, switchCurrency, init };
 });
 
 export default useCurrencyStore;

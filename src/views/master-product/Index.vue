@@ -26,7 +26,7 @@
 					</td>
 					<td>{{ context?.name }}</td>
 					<td>{{ context?.description }}</td>
-					<td>{{ rupiahFormatAdapter?.build(context?.price) }}</td>
+					<td>{{ currencyStore.currency == 'USD' ? '$' : 'Rp' }} {{ rupiahFormatAdapter?.build(currencyStore.currency == 'USD' ? Number(currencyAdapter?.rupiahToDollar(context?.price)?.toFixed(3)) : context?.price ) }}</td>
 					<td>
 						<span v-if="context?.category == categoryProductEnum?.makanan" class="p-1 px-2 rounded-lg text-white bg-green-500">{{ context?.category }}</span>
 						<span v-if="context?.category == categoryProductEnum?.minuman" class="p-1 px-2 rounded-lg text-white bg-blue-500">{{ context?.category }}</span>
@@ -47,7 +47,7 @@
 				<input v-model="form.name" type="text" id="name" class="w-full border-1 border-gray-200 p-2 rounded-lg">
 			</div>
 			<div class="form mb-3">
-				<label for="price" class="text-gray-700">Harga</label>
+				<label for="price" class="text-gray-700">Harga (Rp)</label>
 				<input v-model="form.price" type="text" id="price" class="w-full border-1 border-gray-200 p-2 rounded-lg">
 			</div>
 			<div class="form mb-3">
@@ -92,9 +92,14 @@ import { categoryProductEnum } from '../../product/IProduct.ts';
 import ProductService from '@/services/ProductService.ts';
 import { ProductRepository } from '@/repositories/ProductRepository.ts';
 import useProductStore from '@/stores/productStore.ts';
-import FoodAdapter from '@/adapter/CurrencyAdapter.ts';
+import CurrencyAdapter from '@/adapter/CurrencyAdapter.ts';
+import useCurrencyStore from '@/stores/currencyStore.ts';
 
 const rupiahFormatAdapter = new RupiahFormatAdapter();
+const productRepository = new ProductRepository(useProductStore());
+const productService = new ProductService(productRepository);
+const currencyAdapter = new CurrencyAdapter();
+const currencyStore = useCurrencyStore();
 const showModal = ref(false);
 const form = ref<{ name: string, category: categoryProductEnum, price: number, description?: string, imageUrl?: string }>({
 	name: '',
@@ -103,7 +108,4 @@ const form = ref<{ name: string, category: categoryProductEnum, price: number, d
 	description: undefined,
 	imageUrl: undefined
 });
-
-const productRepository = new ProductRepository(useProductStore());
-const productService = new ProductService(productRepository);
 </script>
