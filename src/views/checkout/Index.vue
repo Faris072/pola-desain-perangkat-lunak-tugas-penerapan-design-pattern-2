@@ -11,7 +11,7 @@
 				</div>
 				<br>
 				<div class="body border-b-2 border-dashed border-gray-400 pb-3">
-					<div v-for="(category, index) in guestTotal?.getOrders" class="list-order">
+					<div v-for="(category, index) in checkoutTotal?.getOrders" class="list-order">
 						<h3>List Order {{ category?.category }}</h3>
 						<br>
 						<div v-for="(product, idx) in category?.products" class="item flex items-center justify-between border-b-1 border-gray-300 mb-2 p-2">
@@ -44,7 +44,7 @@
 								</div>
 							</div>
 							<div class="kanan flex items-center justify-end gap-5">
-								<h5 class="font-bold text-blue-500">{{ currencyStore.currency == 'USD' ? '$' : 'Rp' }} {{ currencyStore.currency == 'USD' ? currencyAdapter?.rupiahToDollar(guestTotal?.getTotalPrice)?.toFixed(3) : guestTotal?.getTotalPrice }}</h5>
+								<h5 class="font-bold text-blue-500">{{ currencyStore.currency == 'USD' ? '$' : 'Rp' }} {{ currencyStore.currency == 'USD' ? currencyAdapter?.rupiahToDollar(checkoutTotal?.getTotalPrice)?.toFixed(3) : checkoutTotal?.getTotalPrice }}</h5>
 							</div>
 						</div>
 						<div class="item flex items-center justify-between border-b-1 border-gray-300 mb-2 p-2 py-3">
@@ -54,7 +54,7 @@
 								</div>
 							</div>
 							<div class="kanan flex items-center justify-end gap-5">
-								<h5 class="font-bold text-yellow-500">{{ currencyStore.currency == 'USD' ? '$' : 'Rp' }} {{ guestTotal?.getDiscount }}</h5>
+								<h5 class="font-bold text-yellow-500">{{ currencyStore.currency == 'USD' ? '$' : 'Rp' }} {{ checkoutTotal?.getDiscount }}</h5>
 							</div>
 						</div>
 						<div class="item flex items-center justify-between border-b-2 border-dashed border-gray-400 mb-2 p-2 py-3">
@@ -64,7 +64,7 @@
 								</div>
 							</div>
 							<div class="kanan flex items-center justify-end gap-5">
-								<h5 class="font-bold text-red-500">{{ currencyStore.currency == 'USD' ? '$' : 'Rp' }} {{ currencyStore.currency == 'USD' ? currencyAdapter?.rupiahToDollar(guestTotal?.getTax)?.toFixed(3) : guestTotal?.getTax }}</h5>
+								<h5 class="font-bold text-red-500">{{ currencyStore.currency == 'USD' ? '$' : 'Rp' }} {{ currencyStore.currency == 'USD' ? currencyAdapter?.rupiahToDollar(checkoutTotal?.getTax)?.toFixed(3) : checkoutTotal?.getTax }}</h5>
 							</div>
 						</div>
 						<div class="item flex items-center justify-between mb-2 p-2 py-3">
@@ -74,7 +74,7 @@
 								</div>
 							</div>
 							<div class="kanan flex items-center justify-end gap-5">
-								<h3 class="font-bold text-blue-500">{{ currencyStore.currency == 'USD' ? '$' : 'Rp' }} {{ currencyStore.currency == 'USD' ? currencyAdapter?.rupiahToDollar(guestTotal?.getGrandTotal)?.toFixed(3) : guestTotal?.getGrandTotal }}</h3>
+								<h3 class="font-bold text-blue-500">{{ currencyStore.currency == 'USD' ? '$' : 'Rp' }} {{ currencyStore.currency == 'USD' ? currencyAdapter?.rupiahToDollar(checkoutTotal?.getGrandTotal)?.toFixed(3) : checkoutTotal?.getGrandTotal }}</h3>
 							</div>
 						</div>
 					</div>
@@ -90,13 +90,24 @@ import CurrencyAdapter from '@/adapter/CurrencyAdapter';
 import ProductGroupAdapter from '@/adapter/ProductGroupAdapter';
 import OrderServiceCreator from '@/factory/OrderServiceCreator';
 import useCurrencyStore from '@/stores/currencyStore';
+import type Checkout from '@/template/Checkout';
 import GuestTotal from '@/template/GuesttTotal';
+import MemberTotal from '@/template/MemberTotal';
+import { ref } from 'vue';
 
+const isPremium = ref(true);
 const orderServiceCreator = new OrderServiceCreator();
 const orderService = orderServiceCreator?.create();
 const currencyAdapter = new CurrencyAdapter();
 const currencyStore = useCurrencyStore();
-const guestTotal = new GuestTotal(new ProductGroupAdapter(), orderService);
-guestTotal.checkout();
+
+let checkoutTotal: Checkout | undefined;
+if(isPremium.value){
+	checkoutTotal = new MemberTotal(new ProductGroupAdapter(), orderService);
+}
+else {
+	checkoutTotal = new GuestTotal(new ProductGroupAdapter(), orderService);
+}
+checkoutTotal.checkout();
 
 </script>

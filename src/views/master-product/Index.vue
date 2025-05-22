@@ -17,23 +17,25 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr v-for="(context, index) in productService?.getProducts()">
-					<td class="text-center">{{ index+1 }}</td>
-					<td class="w-20">
-						<div class="w-full flex justify-center">
-							<img :src="context?.imageUrl" class="w-10 h-10 rounded-full object-cover">
-						</div>
-					</td>
-					<td>{{ context?.name }}</td>
-					<td>{{ context?.description }}</td>
-					<td>{{ currencyStore.currency == 'USD' ? '$' : 'Rp' }} {{ rupiahFormatAdapter?.build(currencyStore.currency == 'USD' ? Number(currencyAdapter?.rupiahToDollar(context?.price)?.toFixed(3)) : context?.price ) }}</td>
-					<td>
-						<span v-if="context?.category == categoryProductEnum?.makanan" class="p-1 px-2 rounded-lg text-white bg-green-500">{{ context?.category }}</span>
-						<span v-if="context?.category == categoryProductEnum?.minuman" class="p-1 px-2 rounded-lg text-white bg-blue-500">{{ context?.category }}</span>
-						<span v-if="context?.category == categoryProductEnum?.snack" class="p-1 px-2 rounded-lg text-white bg-yellow-500">{{ context?.category }}</span>
-					</td>
-					<td><button @click="productService?.deleteProduct(context?.id)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded-lg"><i class="pi pi-trash text-white"></i></button></td>
-				</tr>
+				<template v-for="(category, i) in foodAdapter?.adapt()">
+					<tr v-for="(context, index) in category?.products">
+						<td class="text-center">{{ index+1 }}</td>
+						<td class="w-20">
+							<div class="w-full flex justify-center">
+								<img :src="context?.imageUrl" class="w-10 h-10 rounded-full object-cover">
+							</div>
+						</td>
+						<td>{{ context?.name }}</td>
+						<td>{{ context?.description }}</td>
+						<td>{{ currencyStore.currency == 'USD' ? '$' : 'Rp' }} {{ rupiahFormatAdapter?.build(currencyStore.currency == 'USD' ? Number(currencyAdapter?.rupiahToDollar(context?.price)?.toFixed(3)) : context?.price ) }}</td>
+						<td>
+							<span v-if="context?.category == categoryProductEnum?.makanan" class="p-1 px-2 rounded-lg text-white bg-green-500">{{ context?.category }}</span>
+							<span v-if="context?.category == categoryProductEnum?.minuman" class="p-1 px-2 rounded-lg text-white bg-blue-500">{{ context?.category }}</span>
+							<span v-if="context?.category == categoryProductEnum?.snack" class="p-1 px-2 rounded-lg text-white bg-yellow-500">{{ context?.category }}</span>
+						</td>
+						<td><button @click="productService?.deleteProduct(context?.id)" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 border-b-4 border-red-700 hover:border-red-500 rounded-lg"><i class="pi pi-trash text-white"></i></button></td>
+					</tr>
+				</template>
 			</tbody>
 		</table>
 	</div>
@@ -94,6 +96,7 @@ import { ProductRepository } from '@/repositories/ProductRepository.ts';
 import useProductStore from '@/stores/productStore.ts';
 import CurrencyAdapter from '@/adapter/CurrencyAdapter.ts';
 import useCurrencyStore from '@/stores/currencyStore.ts';
+import FoodAdapter from '@/adapter/FoodAdapter.ts';
 
 const rupiahFormatAdapter = new RupiahFormatAdapter();
 const productRepository = new ProductRepository(useProductStore());
@@ -101,6 +104,7 @@ const productService = new ProductService(productRepository);
 const currencyAdapter = new CurrencyAdapter();
 const currencyStore = useCurrencyStore();
 const showModal = ref(false);
+const foodAdapter = new FoodAdapter(productService);
 const form = ref<{ name: string, category: categoryProductEnum, price: number, description?: string, imageUrl?: string }>({
 	name: '',
 	category: categoryProductEnum?.makanan,

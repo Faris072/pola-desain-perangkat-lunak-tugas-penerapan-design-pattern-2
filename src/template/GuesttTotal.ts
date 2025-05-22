@@ -12,10 +12,10 @@ export default class GuestTotal extends Checkout {
 			return this.getTotalPrice * 0.02;
 		}
 		else if(this.getTotalPrice > 50_000 && this.getTotalPrice <= 100_000){
-			return this.getTotalPrice * 0.05;
+			return this.getTotalPrice * 0.03;
 		}
 		else if(this.getTotalPrice > 100_000){
-			return this.getTotalPrice * 0.1;
+			return this.getTotalPrice * 0.04;
 		}
 		else {
 			return 0;
